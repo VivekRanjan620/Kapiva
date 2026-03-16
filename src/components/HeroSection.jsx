@@ -29,14 +29,13 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="relative w-full">
-      {/* FULL WIDTH IMAGE */}
+    <div className="relative w-full overflow-hidden ">
       <img
         src={slides[current]}
         alt={`Kapiva Banner ${current + 1}`}
-        className="w-full object-cover"
-        style={{ aspectRatio: "16/5" }}
-      />                              
+        className="w-full max-w-none h-[250px] md:h-[420px] lg:h-[440px] object-contain"
+      />
+
       {/* DOTS */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
         {slides.map((_, i) => (

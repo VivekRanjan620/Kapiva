@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="pt-24 md:pt-28">
+     <main className="pt-16">
         <HeroSection />
         <CategoryBar
           activeCategory={activeCategory}

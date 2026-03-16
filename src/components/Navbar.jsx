@@ -13,12 +13,12 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-9999 bg-white transition-shadow duration-300 ${
           scrolled ? "shadow-md" : "shadow-sm"
         }`}
       >
         {/* Top Row */}
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 h-18 flex items-center justify-between gap-4">
 
           {/* Logo + Location */}
           <div className="flex items-center gap-3 shrink-0">
@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-xl hidden md:flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 hover:border-green-400 focus-within:border-green-500 focus-within:bg-white transition-all duration-200">
+          <div className="flex-1 max-w-xl hidden md:flex items-center gap-2 bg-gray-50 border border-gray-500 rounded-full px-4 py-2 hover:border-green-400 focus-within:border-green-500 focus-within:bg-white transition-all duration-200">
             <span className="text-gray-400">🔍</span>
             <input
               type="text"
@@ -55,10 +55,10 @@ const Navbar = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1 shrink-0">
-            <button className="hidden md:block border border-gray-300 text-gray-700 text-xs font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
+            <button className="hidden md:block border border-[#1b1b1b] text-gray-700 text-xs font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
               GET APP
             </button>
-            <button className="hidden md:block border border-gray-300 text-gray-700 text-xs font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
+            <button className="hidden md:block border border-[#1b1b1b] text-gray-700 text-xs font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
               LOGIN
             </button>
             <button className="text-gray-600 hover:text-black p-2 text-xl rounded-full hover:bg-gray-100 transition-colors">
@@ -84,7 +84,7 @@ const Navbar = () => {
         </div>
 
         {/* Nav Links Row */}
-        <div className="hidden md:flex max-w-7xl mx-auto px-4 pb-2 gap-6">
+        {/* <div className="hidden md:flex max-w-7xl mx-auto px-4 pb-2 gap-6">
           {navLinks.map((link) => (
             <button
               key={link}
@@ -98,7 +98,7 @@ const Navbar = () => {
               {link}
             </button>
           ))}
-        </div>
+        </div> */}
       </nav>
 
       <SideDrawer isOpen={menuOpen} onClose={() => setMenuOpen(false)} />

@@ -16,10 +16,8 @@ const ProductGrid = ({ activeCategory }) => {
   return (
     <div className="bg-white">
 
-      {/* ══════════════════════════════
-          1. CONCERN PRODUCTS — 4 cards
-      ══════════════════════════════ */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* ══ 1. CONCERN PRODUCTS ══ */}
+      <div className="py-8 px-20">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-xl font-bold text-gray-900">{activeCategory}</h2>
           <button className="text-sm text-green-700 font-semibold hover:underline">
@@ -27,8 +25,8 @@ const ProductGrid = ({ activeCategory }) => {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {currentProducts.map((product) => (
+        <div className="grid grid-cols-4 gap-6">
+          {currentProducts.slice(0, 4).map((product) => (
             <ProductCard
               key={product.id}
               product={product}
@@ -45,16 +43,12 @@ const ProductGrid = ({ activeCategory }) => {
         </div>
       </div>
 
-      {/* ══════════════════════════════
-          2. REAL PEOPLE REAL STORIES
-      ══════════════════════════════ */}
-      <div className="bg-gray-50 py-8 px-4">
-        <div className="max-w-7xl mx-auto">
+      {/* ══ 2. REAL PEOPLE REAL STORIES ══ */}
+      {currentReviews.length > 0 && (
+        <div className="bg-gray-50 py-8 px-20">
           <h2 className="text-xl font-bold text-gray-900 mb-5">
             Real people, real stories
           </h2>
-
-          {/* Single row, no wrap, horizontal scroll */}
           <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
             {currentReviews.map((review) => (
               <div
@@ -62,35 +56,19 @@ const ProductGrid = ({ activeCategory }) => {
                 className="border border-gray-200 rounded-xl bg-white p-4 shrink-0"
                 style={{ width: 200 }}
               >
-                {/* Review image */}
                 <div className="w-full h-28 rounded-lg bg-gray-100 mb-3 overflow-hidden flex items-center justify-center">
                   {review.image ? (
-                    <img
-                      src={review.image}
-                      alt={review.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={review.image} alt={review.name} className="w-full h-full object-cover rounded-lg" />
                   ) : (
                     <span className="text-4xl">🧴</span>
                   )}
                 </div>
-
-                {/* Stars */}
                 <div className="flex gap-0.5 mb-1">
                   {[...Array(5)].map((_, i) => (
-                    <span
-                      key={i}
-                      className={`text-sm ${i < review.rating ? "text-yellow-400" : "text-gray-300"}`}
-                    >
-                      ★
-                    </span>
+                    <span key={i} className={`text-sm ${i < review.rating ? "text-yellow-400" : "text-gray-300"}`}>★</span>
                   ))}
                 </div>
-
-                {/* Name */}
                 <p className="text-sm font-bold text-gray-800 mb-1">{review.name}</p>
-
-                {/* Comment */}
                 <p className="text-xs text-gray-500 leading-relaxed"
                   style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                   {review.comment}
@@ -99,20 +77,17 @@ const ProductGrid = ({ activeCategory }) => {
             ))}
           </div>
         </div>
-      </div>
+      )}
 
-      {/* ══════════════════════════════
-          3. KAPIVA BESTSELLERS — fixed 4
-      ══════════════════════════════ */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* ══ 3. KAPIVA BESTSELLERS ══ */}
+      <div className="py-8 px-20">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-xl font-bold text-gray-900">Kapiva Bestsellers</h2>
           <button className="text-sm text-green-700 font-semibold hover:underline">
             View all
           </button>
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-6">
           {bestsellers.map((product) => (
             <ProductCard
               key={product.id}
@@ -128,12 +103,10 @@ const ProductGrid = ({ activeCategory }) => {
   );
 };
 
-// ── Reusable Product Card ──
 const ProductCard = ({ product, added, onAdd }) => {
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-white flex flex-col">
 
-      {/* Badges */}
       <div className="flex items-center justify-between px-3 pt-3">
         <div className="flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
           <span className="text-yellow-500 text-xs">★</span>
@@ -145,8 +118,7 @@ const ProductCard = ({ product, added, onAdd }) => {
         </div>
       </div>
 
-      {/* Image */}
-      <div className="flex items-center justify-center px-4 py-4" style={{ height: 180 }}>
+      <div className="flex items-center justify-center px-4 py-4" style={{ height: 220 }}>
         <img
           src={product.image}
           alt={product.name}
@@ -154,12 +126,9 @@ const ProductCard = ({ product, added, onAdd }) => {
         />
       </div>
 
-      {/* Info */}
       <div className="px-3 pb-3 flex flex-col flex-1">
-        <p
-          className="text-sm text-gray-800 font-medium leading-tight mb-2"
-          style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
-        >
+        <p className="text-sm text-gray-800 font-medium leading-tight mb-2"
+          style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
           {product.name}
         </p>
 
@@ -174,7 +143,6 @@ const ProductCard = ({ product, added, onAdd }) => {
 
         <p className="text-xs text-gray-400 mb-3">Delivered by 18 - 19 Mar</p>
 
-        {/* Buttons */}
         <div className="flex gap-2 mt-auto">
           <button
             onClick={() => onAdd(product.id)}
