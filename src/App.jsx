@@ -27,18 +27,17 @@ const App = () => {
       </main>
       <Footer />
 
-     {/* WhatsApp FAB */}
-      <a href="https://wa.me/918010000000"
-        
+      {/* WhatsApp FAB */}
+      <a
+        href="https://wa.me/918010000000"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-green-500 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl shadow-xl hover:scale-110 hover:bg-green-600 active:scale-95 transition-all duration-200"
       >
         💬
-    </a>
+      </a>
     </div>
   );
 };
 
 export default App;
-
