@@ -34,8 +34,9 @@ const HeroSection = () => {
       <img
         src={slides[current]}
         alt={`Kapiva Banner ${current + 1}`}
-        className="w-full h-[380px] md:h-[480px] lg:h-[520px] object-cover object-top"
-      />
+        className="w-full object-cover"
+        style={{ aspectRatio: "16/5" }}
+      />                              
       {/* DOTS */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
         {slides.map((_, i) => (

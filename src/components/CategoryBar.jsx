@@ -2,7 +2,7 @@ import { categories } from "../data/categories";
 
 const CategoryBar = ({ activeCategory, onCategoryChange }) => {
   return (
-    <div className="bg-white border-b border-gray-200 py-3 sticky top-[88px] z-30 shadow-sm">
+    <div className="bg-white border-b border-gray-200 py-3 shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-start gap-2 flex-wrap">
 
