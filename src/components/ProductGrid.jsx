@@ -14,10 +14,9 @@ const ProductGrid = ({ activeCategory }) => {
   };
 
   return (
-    <div className="bg-white">
-
+    <div className="bg-white ">
       {/* ══ 1. CONCERN PRODUCTS ══ */}
-      <div className="py-8 px-20">
+      <div className="py-6 px-3 sm:px-6 md:px-10 lg:px-20">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-xl font-bold text-gray-900">{activeCategory}</h2>
           <button className="text-sm text-green-700 font-semibold hover:underline">
@@ -25,7 +24,7 @@ const ProductGrid = ({ activeCategory }) => {
           </button>
         </div>
 
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {currentProducts.slice(0, 4).map((product) => (
             <ProductCard
               key={product.id}
@@ -45,7 +44,7 @@ const ProductGrid = ({ activeCategory }) => {
 
       {/* ══ 2. REAL PEOPLE REAL STORIES ══ */}
       {currentReviews.length > 0 && (
-        <div className="bg-gray-50 py-8 px-20">
+        <div className="bg-gray-50 py-6 px-3 sm:px-6 md:px-10 lg:px-20">
           <h2 className="text-xl font-bold text-gray-900 mb-5">
             Real people, real stories
           </h2>
@@ -56,21 +55,41 @@ const ProductGrid = ({ activeCategory }) => {
                 className="border border-gray-200 rounded-xl bg-white p-4 shrink-0"
                 style={{ width: 200 }}
               >
-                <div className="w-full h-28 rounded-lg bg-gray-100 mb-3 overflow-hidden flex items-center justify-center">
+                <div className="relative flex items-center justify-center px-2 sm:px-4 py-2 sm:py-4 h-[150px] sm:h-[200px] md:h-[240px] bg-gray-50">
                   {review.image ? (
-                    <img src={review.image} alt={review.name} className="w-full h-full object-cover rounded-lg" />
+                    <img
+                      src={review.image}
+                      alt={review.name}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
                   ) : (
-                    <span className="text-4xl">🧴</span>
+                    <span className="text-base sm:text-lg font-bold text-black">
+                      🧴
+                    </span>
                   )}
                 </div>
                 <div className="flex gap-0.5 mb-1">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className={`text-sm ${i < review.rating ? "text-yellow-400" : "text-gray-300"}`}>★</span>
+                    <span
+                      key={i}
+                      className={`text-sm ${i < review.rating ? "text-yellow-400" : "text-gray-300"}`}
+                    >
+                      ★
+                    </span>
                   ))}
                 </div>
-                <p className="text-sm font-bold text-gray-800 mb-1">{review.name}</p>
-                <p className="text-xs text-gray-500 leading-relaxed"
-                  style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                <p className="text-xs sm:text-sm text-gray-800 font-medium mb-2 line-clamp-2">
+                  {review.name}
+                </p>
+                <p
+                  className="text-xs text-gray-500 leading-relaxed"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
                   {review.comment}
                 </p>
               </div>
@@ -80,14 +99,16 @@ const ProductGrid = ({ activeCategory }) => {
       )}
 
       {/* ══ 3. KAPIVA BESTSELLERS ══ */}
-      <div className="py-8 px-20">
+      <div className="py-6 px-3 sm:px-6 md:px-10 lg:px-20">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-bold text-gray-900">Kapiva Bestsellers</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Kapiva Bestsellers
+          </h2>
           <button className="text-sm text-green-700 font-semibold hover:underline">
             View all
           </button>
         </div>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {bestsellers.map((product) => (
             <ProductCard
               key={product.id}
@@ -98,64 +119,71 @@ const ProductGrid = ({ activeCategory }) => {
           ))}
         </div>
       </div>
-
     </div>
   );
 };
 
 const ProductCard = ({ product, added, onAdd }) => {
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 bg-white flex flex-col">
-
-      <div className="flex items-center justify-between px-3 pt-3">
-        <div className="flex items-center gap-1 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+    <div className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 bg-white flex flex-col">
+      <div className="relative flex items-center justify-center px-4 py-4 h-[260px] bg-gray-50">
+        {/* LEFT: Rating */}
+        <div className="absolute top-2 left-2 flex items-center gap-1 bg-white/90 backdrop-blur px-2 py-1 rounded-full shadow-sm">
           <span className="text-yellow-500 text-xs">★</span>
-          <span className="text-xs font-semibold text-gray-700">{product.rating}/5</span>
+          <span className="text-xs font-semibold text-gray-700">
+            {product.rating}/5
+          </span>
           <span className="text-xs text-gray-400">({product.reviews})</span>
         </div>
-        <div className="bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+
+        {/* RIGHT: Discount */}
+        <div className="absolute top-2 right-2 bg-green-700 text-white text-[10px] font-bold px-2 py-1 rounded">
           {product.discount}% OFF
         </div>
-      </div>
 
-      <div className="flex items-center justify-center px-4 py-4" style={{ height: 220 }}>
+        {/* IMAGE */}
         <img
           src={product.image}
           alt={product.name}
-          className="h-full w-full object-contain"
+          className="w-full h-full object-contain"
         />
       </div>
 
-      <div className="px-3 pb-3 flex flex-col flex-1">
-        <p className="text-sm text-gray-800 font-medium leading-tight mb-2"
-          style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+      {/* Content */}
+      <div className="px-3 py-3 flex flex-col flex-1">
+        <p className="text-sm text-gray-800 font-medium mb-2 line-clamp-2">
           {product.name}
         </p>
 
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-base font-black text-gray-900">₹{product.price}</span>
-          <span className="text-xs text-gray-400 line-through">₹{product.originalPrice}</span>
+          <span className="text-lg font-bold text-black">₹{product.price}</span>
+          <span className="text-sm text-gray-400 line-through">
+            ₹{product.originalPrice}
+          </span>
         </div>
 
-        <p className="text-xs text-gray-500 mb-1">
-          Earn 🪙 <span className="font-semibold text-gray-700">{Math.floor(product.price * 0.05)} Coins</span>
+        <p className="inline-flex items-center w-fit text-xs text-gray-500 mb-2 bg-[#edefe5] px-2 py-[8px] rounded-full leading-none">
+          <span>Earn 🪙</span>
+          <span className="font-semibold ml-1">
+            {Math.floor(product.price * 0.05)} Coins
+          </span>
         </p>
 
-        <p className="text-xs text-gray-400 mb-3">Delivered by 18 - 19 Mar</p>
-
-        <div className="flex gap-2 mt-auto">
-          <button
-            onClick={() => onAdd(product.id)}
-            className="flex-none w-10 h-10 border-2 border-green-700 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors"
-          >
-            🛒
-          </button>
-          <button className="flex-1 bg-green-700 text-white text-sm font-bold py-2 rounded-lg hover:bg-green-800 active:scale-95 transition-all">
-            {added === product.id ? "✓ ADDED!" : "BUY NOW"}
-          </button>
-        </div>
+        <p className="text-xs text-gray-600 font-bold mb-3 bg-[#f5f5f5] px-2 py-2 rounded">
+          Delivered by 19 - 20 Mar
+        </p>
       </div>
 
+      {/* Bottom CTA (IMPORTANT UI) */}
+      <div className="flex h-[40px] sm:h-[50px] font-semibold tracking-wide">
+        <button className="w-[35%] sm:w-[30%] bg-black text-white flex items-center justify-center text-xl sm:text-2xl">
+          🛒
+        </button>
+
+        <button className="w-[65%] sm:w-[70%] bg-[#7c9a3d] text-white font-bold text-sm sm:text-base md:text-lg">
+          {added === product.id ? "✓ ADDED" : "BUY NOW"}
+        </button>
+      </div>
     </div>
   );
 };

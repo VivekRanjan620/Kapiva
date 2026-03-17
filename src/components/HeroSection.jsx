@@ -33,7 +33,7 @@ const HeroSection = () => {
       <img
         src={slides[current]}
         alt={`Kapiva Banner ${current + 1}`}
-        className="w-full max-w-none h-[250px] md:h-[420px] lg:h-[440px] object-contain"
+        className="w-full max-w-none h-[450px] md:h-[450px] lg:h-[440px] object-contain"
       />
 
       {/* DOTS */}
