@@ -1,77 +1,207 @@
-const navLinks = ["Products", "Him Foods", "Her Foods", "Juices", "Offers", "Blog"];
+import { useState, useEffect } from "react";
+
+const shopByItems = [
+  "Daily Wellness", "Gym Foods", "Men's Health",
+  "Blood Sugar & Chronic Care", "Heart Care", "Skin Care",
+  "Hair Care", "Ayurvedic Juices", "Women's Health", "Weight Management",
+];
+
+const ingredientItems = [
+  "Ashwagandha", "Shilajit", "Turmeric", "Giloy",
+  "Triphala", "Neem", "Amla", "Brahmi",
+];
 
 const SideDrawer = ({ isOpen, onClose }) => {
+  const [shopByOpen, setShopByOpen] = useState(true);
+  const [ingredientsOpen, setIngredientsOpen] = useState(false);
+  const [navbarHeight, setNavbarHeight] = useState(64);
+
+  // ✅ Dynamic navbar height detect karo
+  useEffect(() => {
+    const nav = document.querySelector("nav");
+    if (nav) setNavbarHeight(nav.offsetHeight);
+  }, []);
+
+  // ✅ Scroll lock — body scroll band karo jab drawer open ho
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
   return (
-    <div className={`fixed inset-0 z-40 ${isOpen ? "visible" : "invisible pointer-events-none"}`}>
-      {/* Backdrop */}
+    <>
+      {/* ══════════════════════════
+          BACKDROP — navbar ke neeche, pointer-events block
+      ══════════════════════════ */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-          isOpen ? "opacity-40" : "opacity-0"
-        }`}
+        className="fixed left-0 right-0 bottom-0 z-40 transition-all duration-500"
+        style={{
+          top: `${navbarHeight}px`,
+          backgroundColor: isOpen ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0)",
+          backdropFilter: isOpen ? "blur(4px)" : "blur(0px)",
+          WebkitBackdropFilter: isOpen ? "blur(4px)" : "blur(0px)",
+          pointerEvents: isOpen ? "auto" : "none",
+        }}
       />
 
-      {/* Panel */}
+      {/* ══════════════════════════
+          DRAWER PANEL
+      ══════════════════════════ */}
       <div
-        className={`absolute right-0 top-0 h-full w-80 bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className="fixed right-0 bottom-0 z-50 bg-white flex flex-col w-[85%] sm:w-[70%] md:w-[45%] lg:w-[38%]"
+        style={{
+          top: `${navbarHeight}px`,
+          boxShadow: "-8px 0 40px rgba(0,0,0,0.15)",
+          transform: isOpen ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)",
+          willChange: "transform",
+        }}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <div className="bg-black text-white font-black text-lg px-3 py-1.5 tracking-widest rounded">
-            KAPIVA
-          </div>
+        {/* Close Button Row */}
+        <div className="flex justify-end px-5 py-3 border-b border-gray-100">
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-black transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-black transition-all duration-200 text-base"
           >
             ✕
           </button>
         </div>
 
-        {/* Content — aap yahan apna content daalein */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-4">
-            Menu
-          </p>
-          <nav className="space-y-1">
-            {navLinks.map((link) => (
+        {/* ══ Scrollable Content ══ */}
+        <div className="flex-1 overflow-y-auto overscroll-contain">
+
+          {/* Login */}
+          <div className="px-4 py-3">
+            <button className="w-full flex items-center gap-3 bg-[#5a7a3a] hover:bg-[#4a6a2a] active:bg-[#3a5a1a] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-colors duration-200">
+              <span className="text-lg">🤝</span>
+              <span className="tracking-wide">Login</span>
+            </button>
+          </div>
+
+          {/* ── Shop By Accordion ── */}
+          <div className="border-t border-gray-100">
+            <button
+              onClick={() => setShopByOpen(!shopByOpen)}
+              className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors duration-150"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-base">🛒</span>
+                <span className="font-semibold text-gray-800 text-sm tracking-wide">Shop by</span>
+              </div>
+              <svg
+                className="w-4 h-4 text-gray-400 transition-transform duration-300"
+                style={{ transform: shopByOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <div
+              className="overflow-hidden"
+              style={{
+                maxHeight: shopByOpen ? "520px" : "0px",
+                transition: "max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              {shopByItems.map((item, i) => (
+                <button
+                  key={item}
+                  className="w-full text-left px-14 py-2.5 text-sm text-gray-600 hover:text-[#5a7a3a] hover:bg-green-50 transition-colors duration-150"
+                  style={{
+                    opacity: shopByOpen ? 1 : 0,
+                    transform: shopByOpen ? "translateX(0)" : "translateX(10px)",
+                    transition: `opacity 0.25s ease ${i * 18}ms, transform 0.25s ease ${i * 18}ms`,
+                  }}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Ingredients Accordion ── */}
+          <div className="border-t border-gray-100">
+            <button
+              onClick={() => setIngredientsOpen(!ingredientsOpen)}
+              className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors duration-150"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-base">🌿</span>
+                <span className="font-semibold text-gray-800 text-sm tracking-wide">Ingredients</span>
+              </div>
+              <svg
+                className="w-4 h-4 text-gray-400 transition-transform duration-300"
+                style={{ transform: ingredientsOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <div
+              className="overflow-hidden"
+              style={{
+                maxHeight: ingredientsOpen ? "420px" : "0px",
+                transition: "max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              {ingredientItems.map((item, i) => (
+                <button
+                  key={item}
+                  className="w-full text-left px-14 py-2.5 text-sm text-gray-600 hover:text-[#5a7a3a] hover:bg-green-50 transition-colors duration-150"
+                  style={{
+                    opacity: ingredientsOpen ? 1 : 0,
+                    transform: ingredientsOpen ? "translateX(0)" : "translateX(10px)",
+                    transition: `opacity 0.25s ease ${i * 18}ms, transform 0.25s ease ${i * 18}ms`,
+                  }}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Static Links */}
+          <div className="border-t border-gray-100 px-5 py-4 space-y-4">
+            {["Blog", "Innovation Fund", "Download App"].map((link) => (
               <button
                 key={link}
-                className="w-full text-left py-3 px-3 text-gray-700 hover:bg-green-50 hover:text-green-700 rounded-xl transition-colors font-medium text-sm flex items-center justify-between group"
+                className="w-full text-left text-sm font-semibold text-gray-800 hover:text-[#5a7a3a] transition-colors duration-150"
               >
-                <span>{link}</span>
-                <span className="text-gray-300 group-hover:text-green-500">›</span>
+                {link}
               </button>
             ))}
-          </nav>
-
-          {/* Yahan apna baaki content add karo */}
-          <div className="mt-8 p-4 bg-green-50 rounded-xl border border-green-100">
-            <p className="text-xs font-semibold text-green-700 mb-1">📦 Track Your Order</p>
-            <p className="text-xs text-gray-500">Enter order ID to check status</p>
           </div>
 
-          <div className="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-100">
-            <p className="text-xs font-semibold text-amber-700 mb-1">🎁 Today's Offers</p>
-            <p className="text-xs text-gray-500">Save up to ₹700 on products</p>
+          {/* App Store Buttons */}
+          <div className="px-5 pb-4 flex gap-3">
+            <button className="flex-1 bg-black text-white rounded-xl px-3 py-2.5 flex items-center gap-2 hover:bg-gray-800 active:scale-95 transition-all duration-150">
+              <span className="text-lg">▶</span>
+              <div className="text-left">
+                <p className="text-[9px] text-gray-300 leading-tight">GET IT ON</p>
+                <p className="text-xs font-semibold leading-tight">Google Play</p>
+              </div>
+            </button>
+            <button className="flex-1 bg-black text-white rounded-xl px-3 py-2.5 flex items-center gap-2 hover:bg-gray-800 active:scale-95 transition-all duration-150">
+              <span className="text-lg"></span>
+              <div className="text-left">
+                <p className="text-[9px] text-gray-300 leading-tight">Download on the</p>
+                <p className="text-xs font-semibold leading-tight">App Store</p>
+              </div>
+            </button>
           </div>
-        </div>
 
-        {/* Footer */}
-        <div className="p-6 border-t border-gray-100">
-          <div className="flex gap-3">
-            <button className="flex-1 bg-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-gray-800 transition-colors">
-              LOGIN
-            </button>
-            <button className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors">
-              GET APP
-            </button>
+          {/* Footer */}
+          <div className="border-t border-gray-100 px-5 py-4 flex items-center justify-center gap-4">
+            <button className="text-xs text-gray-500 hover:text-gray-800 transition-colors duration-150">Contact Us</button>
+            <span className="text-gray-300 text-xs">|</span>
+            <button className="text-xs text-gray-500 hover:text-gray-800 transition-colors duration-150">About Us</button>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
